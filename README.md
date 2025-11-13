@@ -1,123 +1,212 @@
 # Valorant Bot
 
-A Discord bot for managing Valorant accounts and checking player ranks.
+A Discord bot for managing Valorant accounts, tracking ranks, viewing match history, and analyzing statistics across all game modes.
 
-## Features
+## ✨ Features
 
-- Add, remove, and edit Valorant accounts
-- List all stored accounts
-- Check current ranks and RR (Rank Rating) for all stored accounts
-- Supports multiple regions: AP, NA, EU, KR, LATAM, BR
+- **Account Management** - Add, remove, and edit Valorant accounts
+- **Rank Tracking** - Check current competitive ranks and RR (Rank Rating)
+- **Match History** - View recent matches with detailed information
+- **Statistics** - Comprehensive stats for all game modes
+- **Multi-Region Support** - AP, NA, EU, KR, LATAM, BR
+- **Game Mode Filtering** - Competitive, Unrated, Premier, Deathmatch, and more
+- **24/7 Reliability** - Automatic reconnection and error recovery
+- **Caching** - Optimized API usage with intelligent caching
 
-## Prerequisites
+## 📋 Prerequisites
 
-- Node.js (v16 or higher recommended)
-- A Discord Bot Token
-- npm or yarn
+- **Node.js** v16 or higher
+- **Discord Bot Token** ([Get one here](https://discord.com/developers/applications))
+- **npm** or **yarn**
 
-## Installation
+## 🚀 Quick Start
 
-1. Clone or download this repository
-2. Install all dependencies from `package.json`:
-   ```bash
-   npm install
-   ```
-   This command will automatically read `package.json` and install all required packages:
-   - `discord.js` - Discord API library
-   - `axios` - HTTP client for API requests
-   - `dotenv` - Environment variable management
+### 1. Installation
 
-   **Alternative:** You can also install the packages individually:
-   ```bash
-   npm install discord.js axios dotenv
-   ```
+```bash
+# Clone or download the repository
+cd valorant_bot
 
-3. Configure your bot:
-   - Create a `.env` file in the project root (or edit the existing one)
-   - Add your Discord bot token:
-     ```
-     DISCORD_TOKEN=your_actual_bot_token_here
-     ```
+# Install dependencies
+npm install
+```
 
-## Setup Discord Bot
+### 2. Configuration
+
+Create a `.env` file in the project root:
+
+```env
+DISCORD_TOKEN=your_discord_bot_token_here
+```
+
+### 3. Discord Bot Setup
 
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Create a new application
-3. Go to the "Bot" section and create a bot
-4. Copy the bot token
-5. Enable the following intents:
-   - Server Members Intent (if needed)
-   - Message Content Intent (required for reading messages)
-6. Invite the bot to your server with the following permissions:
+2. Create a new application → Go to **Bot** section
+3. Create a bot and copy the token
+4. Enable **Message Content Intent** (required)
+5. Invite bot to your server with permissions:
    - Send Messages
    - Embed Links
    - Read Message History
 
-## Usage
+### 4. Run the Bot
 
-Start the bot:
 ```bash
 npm start
 ```
-Or alternatively:
+
+Or:
+
 ```bash
 node bot.js
 ```
 
-### Commands
+The bot will automatically reconnect if the connection is lost, ensuring 24/7 operation.
 
-All commands start with `!va`:
+## 📖 Commands
 
-- `!va add <region> <Name#Tag>` - Add a new Valorant account
-  - Example: `!va add na DevName#1234`
-  - Valid regions: `ap`, `na`, `eu`, `kr`, `latam`, `br`
+All commands start with `!va`. Use `!va help` in Discord for a quick reference.
 
-- `!va remove <Name#Tag>` - Remove an account
-  - Example: `!va remove DevName#1234`
+### Account Management
 
-- `!va edit <Name#Tag> region=<r> name=<new> tag=<new>` - Edit an account
-  - Example: `!va edit DevName#1234 region=eu tag=5678`
-  - You can update region, name, or tag
+| Command | Description | Example |
+|---------|-------------|---------|
+| `!va add <region> <Name#Tag>` | Add a Valorant account | `!va add na PlayerName#1234` |
+| `!va remove <Name#Tag>` | Remove an account | `!va remove PlayerName#1234` |
+| `!va edit <Name#Tag> [options]` | Edit account details | `!va edit PlayerName#1234 region=eu tag=5678` |
+| `!va list` | List all stored accounts with details | `!va list` |
 
-- `!va list` - List all stored accounts
+**Valid Regions:** `ap`, `na`, `eu`, `kr`, `latam`, `br`
 
-- `!va ranks` - Check ranks and RR for all stored accounts
+### Viewing Information
 
-- `!va` or `!va help` - Show help message
+| Command | Description | Example |
+|---------|-------------|---------|
+| `!va ranks` | Check ranks for all accounts | `!va ranks` |
+| `!va matches [Name#Tag] [mode] [limit]` | View match history | `!va matches competitive 10` |
+| `!va stats [Name#Tag] [mode]` | View detailed statistics | `!va stats PlayerName#1234 premier` |
 
-## Account Format
+**Game Modes:** `competitive`, `unrated`, `premier`, `deathmatch`, `spike`, `escalation`, `replication`, `snowball`, `all`
 
-Accounts are stored with:
-- **Region**: One of the supported regions (ap, na, eu, kr, latam, br)
-- **Name**: The in-game name (case-insensitive)
-- **Tag**: 3-5 alphanumeric characters (e.g., 1234, ABC5)
+### Help & Setup
 
-## Data Storage
+| Command | Description |
+|---------|-------------|
+| `!va help` | Show all available commands |
+| `!va tracker` | Instructions for enabling third-party trackers |
 
-Accounts are stored in `accounts.json` in the following format:
+## 🎮 Command Examples
+
+### Match History
+
+```bash
+!va matches                          # Last 10 matches (first account)
+!va matches PlayerName#1234         # Last 10 matches (specific account)
+!va matches competitive 5            # Last 5 competitive matches
+!va matches PlayerName#1234 deathmatch 15  # 15 deathmatch matches
+```
+
+### Statistics
+
+```bash
+!va stats                            # Stats for first account (all modes)
+!va stats PlayerName#1234            # Stats for specific account
+!va stats competitive                # Competitive stats only
+!va stats PlayerName#1234 premier    # Premier stats for specific account
+```
+
+### Editing Accounts
+
+```bash
+!va edit PlayerName#1234 region=eu           # Change region
+!va edit PlayerName#1234 tag=5678            # Change tag
+!va edit PlayerName#1234 name=NewName tag=9999  # Change multiple fields
+```
+
+## ⚙️ Enabling Third-Party Trackers
+
+**⚠️ Required:** To view ranks and match data, you must enable third-party trackers.
+
+### Quick Setup
+
+1. Visit [account.riotgames.com](https://account.riotgames.com)
+2. Log in and go to **Privacy** or **Data Sharing** settings
+3. Enable **"Allow others to see my match history"**
+4. Enable **"Allow third-party applications to access my match data"** (if available)
+
+### Verify
+
+- Search your account on [tracker.gg/valorant](https://tracker.gg/valorant)
+- If it appears, trackers are enabled ✅
+- Use `!va tracker` in Discord for detailed instructions
+
+## 🔧 Troubleshooting
+
+### Connection Issues
+
+| Problem | Solution |
+|---------|----------|
+| Bot not responding | Check `.env` file has correct `DISCORD_TOKEN` |
+| Can't read messages | Enable **Message Content Intent** in Discord Developer Portal |
+| Connection timeout | Bot will auto-reconnect; check internet connection |
+
+### Data Issues
+
+| Problem | Solution |
+|---------|----------|
+| "401 Unauthorized" | Enable third-party trackers (see above) |
+| "Account not found" | Verify account name and tag are correct |
+| Ranks not showing | Wait a few minutes after enabling trackers |
+| No match data | Ensure account has played matches in selected mode |
+
+## 📊 Data Storage
+
+Accounts are stored in `accounts.json`:
+
 ```json
 {
   "accounts": [
     {
       "region": "na",
-      "name": "DevName",
+      "name": "PlayerName",
       "tag": "1234"
     }
   ]
 }
 ```
 
-## API
+## 🔌 API Information
 
-This bot uses the [HenrikDev Valorant API](https://github.com/Henrik-3/unofficial-valorant-api) to fetch rank information.
+This bot uses the [HenrikDev Valorant API](https://github.com/Henrik-3/unofficial-valorant-api) to fetch:
+- Account information and levels
+- Competitive ranks and RR
+- Match history for all game modes
+- Player statistics
 
-## Troubleshooting
+**Note:** The API requires third-party trackers to be enabled for your Valorant account.
 
-- **Bot not responding**: Check that the bot token is correct in `.env`
-- **"Error fetching rank"**: The API might be down or the account name/tag might be incorrect
-- **Bot can't read messages**: Make sure Message Content Intent is enabled in Discord Developer Portal
+## 🛡️ 24/7 Reliability
 
-## License
+The bot includes automatic features for continuous operation:
 
-ISC
+- **Auto-Reconnection** - Automatically reconnects if connection is lost
+- **Error Recovery** - Handles errors without crashing
+- **Health Monitoring** - Tracks uptime and connection status
+- **Graceful Shutdown** - Clean shutdown on termination signals
 
+The bot will keep running and automatically recover from network issues, ensuring it's always available.
+
+## 📝 Account Format
+
+- **Region**: One of `ap`, `na`, `eu`, `kr`, `latam`, `br`
+- **Name**: In-game name (case-insensitive)
+- **Tag**: 3-5 alphanumeric characters (e.g., `1234`, `ABC5`)
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+**Need Help?** Use `!va help` in Discord or check the troubleshooting section above.

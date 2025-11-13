@@ -31,3 +31,5 @@ Thumbs.db
 dist/
 build/
 
+# account info
+accounts.json

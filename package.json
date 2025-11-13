@@ -5,12 +5,13 @@
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-env": "node check-env.js"
   },
   "keywords": ["discord", "bot", "valorant", "gaming"],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "license": "MIT",
+  "type": "module",
   "dependencies": {
     "discord.js": "^14.14.1",
     "axios": "^1.6.2",
